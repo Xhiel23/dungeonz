@@ -2,6 +2,7 @@
 const Character = require('./Character');
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
+const ChatManager = require('../../../../ChatManager');
 
 class Player extends Character {
     /**
@@ -62,6 +63,7 @@ class Player extends Character {
 
         this.connectionCheckTimeout = setTimeout(this.checkWebsocketConnectionIsAlive.bind(this), checkWebsocketConnectionIsAliveRate);
 
+        ChatManager.addSubscriberToDefaultChannels(config.socket);
     }
 
     checkWebsocketConnectionIsAlive () {
