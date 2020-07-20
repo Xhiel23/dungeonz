@@ -30,22 +30,7 @@ class Player extends Character {
          */
         this.respawnEntrance = config.respawnEntrance || BoardsList.boardsObject["overworld"].entrances["city-spawn"];
 
-        /**
-         * This can't be on the prototype, as changing the contents would change it for every instance of this class.
-         * @type {{slot1: Item, slot2: Item, slot3: Item, slot4: Item, slot5: Item, slot6: Item, slot7: Item, slot8: Item, slot9: Item, slot0: Item}}
-         */
-        this.inventory = {
-            slot1: null,
-            slot2: null,
-            slot3: null,
-            slot4: null,
-            slot5: null,
-            slot6: null,
-            slot7: null,
-            slot8: null,
-            slot9: null,
-            slot0: null,
-        };
+        this.inventory = new Inventory(this);
 
         this.nextMoveTime = 0;
         this.isMovePending = false;
@@ -603,6 +588,7 @@ const Statset = require('../../../../stats/Statset');
 const Taskset = require('../../../../tasks/Taskset');
 const world = require('../../../../World');
 const Damage = require('../../../../gameplay/Damage');
+const Inventory = require('../../../../inventory/Inventory');
 
 Player.prototype.registerEntityType();
 

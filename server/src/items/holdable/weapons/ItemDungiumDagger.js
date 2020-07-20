@@ -1,7 +1,6 @@
-
 const Weapon = require('./Weapon');
 
-class ItemDungiumDagger extends Weapon {}
+class ItemDungiumDagger extends Weapon { }
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemDungiumDagger;
 
