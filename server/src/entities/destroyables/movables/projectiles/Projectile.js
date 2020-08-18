@@ -1,5 +1,5 @@
 const Movable = require('../Movable');
-const Utils = require('../../../../Utils');
+const Utils = require('../../../../utils');
 const ModHitPointConfigs = require('../../../../gameplay/ModHitPointConfigs');
 
 class Projectile extends Movable {

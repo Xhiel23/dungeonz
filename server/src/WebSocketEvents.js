@@ -1,4 +1,4 @@
-const Utils = require('./Utils');
+const Utils = require('./utils');
 const wss = require('./Server');
 const world = require('./World');
 const SpellBook = require('./items/holdable/spell_books/SpellBook');

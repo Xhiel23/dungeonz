@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Utils = require('../Utils');
+const Utils = require('../utils');
 const GroundTypes = require('./GroundTypes');
 const groundTileset = require('../../map/tilesets/ground');
 const boundariesTileset = require('../../map/tilesets/boundaries');

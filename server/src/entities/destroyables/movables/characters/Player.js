@@ -581,7 +581,7 @@ module.exports = Player;
 
 // Need to define the references to the sub-classes that are used by methods here AFTER the class is exported, otherwise the class doesn't exist yet for them to extend from.
 // Same reason for all other classes.
-const Utils = require('../../../../Utils');
+const Utils = require('../../../../utils');
 const BoardsList = require('../../../../board/BoardsList');
 const BankAccount = require('../../../../BankAccount');
 const Statset = require('../../../../stats/Statset');

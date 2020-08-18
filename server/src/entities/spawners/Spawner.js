@@ -175,6 +175,6 @@ class Spawner extends Entity {
 }
 module.exports = Spawner;
 
-const Utils = require('../../Utils');
+const Utils = require('../../utils');
 const World = require('../../World');
 const Drop = require('../../gameplay/Drop');

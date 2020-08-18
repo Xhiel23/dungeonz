@@ -1,6 +1,6 @@
 
 const fs = require('fs');
-const Utils = require("./Utils");
+const Utils = require("./utils");
 const DungeonManagersList = require('./dungeon/DungeonManagersList');
 
 module.exports = {

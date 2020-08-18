@@ -1,5 +1,5 @@
 const EventsList = require('../EventsList');
-const Utils = require('../Utils');
+const Utils = require('../utils');
 const Damage = require('./Damage');
 const Heal = require('./Heal');
 
@@ -44,7 +44,7 @@ class StatusEffect {
         if (this._effectOnStart === true) {
             this._effect();
             // Check again if the applicant is now dead, might have been killed be the above effect.
-            if(this.appliedTo.hitPoints < 1) return;
+            if (this.appliedTo.hitPoints < 1) return;
         }
         // Clear the existing effect loop, or the loops will be stacked (and
         // there won't be a reference to the stacked ones to stop them manually).
@@ -57,7 +57,7 @@ class StatusEffect {
         this._effectLoop = setTimeout(this._effect.bind(this), this._effectRate);
     }
 
-    _effect(){
+    _effect() {
         if (this.shouldContinueEffect() === false) {
             this.stop();
             return;
@@ -73,7 +73,7 @@ class StatusEffect {
                 this.source
             );
             // Stop this effect if the thing it is applied to died from the damage above.
-            if(this.appliedTo.hitPoints < 1){
+            if (this.appliedTo.hitPoints < 1) {
                 this.stop();
                 return;
             }

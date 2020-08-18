@@ -1,6 +1,6 @@
 
 const Character = require('../Character');
-const Utils = require('../../../../../Utils');
+const Utils = require('../../../../../utils');
 
 class Mob extends Character {
 

@@ -1,7 +1,7 @@
 
 class Clan {
 
-    constructor (charter) {
+    constructor(charter) {
         /**
          * How many members this clan can have at once.
          * @type {Number}
@@ -17,7 +17,7 @@ class Clan {
          */
         this.members = [];
 
-        for(let i=0; i<this.maxMembers; i+=1){
+        for (let i = 0; i < this.maxMembers; i += 1) {
             this.members[i] = null;
         }
 
@@ -70,16 +70,16 @@ class Clan {
 
     }
 
-    destroy () {
+    destroy() {
         //console.log("clan destroy");
         let i;
         const members = this.members;
         const maxMembers = this.maxMembers;
         // Tell all members the clan is destroyed.
-        for(i=0; i<maxMembers; i+=1){
+        for (i = 0; i < maxMembers; i += 1) {
             // Check the end of the member list is reached. Might have less members than the max.
             // The first null slot found should be the end of the list.
-            if(members[i] === null) break;
+            if (members[i] === null) break;
             members[i].socket.sendEvent(this.charter.EventsList.clan_destroyed);
             // Remove all references to this clan on the members.
             members[i].clan = null;
@@ -89,8 +89,8 @@ class Clan {
         this.members = [];
 
         // Destroy all structures.
-        for(let entityID in this.structures){
-            if(this.structures.hasOwnProperty(entityID) === false) continue;
+        for (let entityID in this.structures) {
+            if (this.structures.hasOwnProperty(entityID) === false) continue;
 
             this.structures[entityID].destroy();
         }
@@ -104,14 +104,14 @@ class Clan {
      * @param {String} event
      * @param {*} data
      */
-    emitToAllMembers (event, data) {
+    emitToAllMembers(event, data) {
         let i,
             members = this.members,
             maxMembers = this.maxMembers;
-        for(i=0; i<maxMembers; i+=1){
+        for (i = 0; i < maxMembers; i += 1) {
             // Check the end of the member list is reached. Might have less members than the max.
             // The first null slot found should be the end of the list.
-            if(members[i] === null) break;
+            if (members[i] === null) break;
             members[i].socket.sendEvent(event, data);
         }
     }
@@ -121,26 +121,26 @@ class Clan {
      * @param {Player} player
      * @returns {Number}
      */
-    getMemberRankIndex (player) {
-        if(player.clan !== this) Utils.error("Getting member rank index for a player that isn't member of this clan:", player);
+    getMemberRankIndex(player) {
+        if (player.clan !== this) Utils.error("Getting member rank index for a player that isn't member of this clan:", player);
         let i;
         const members = this.members;
         const maxMembers = this.maxMembers;
         // Find the member.
-        for(i=0; i<maxMembers; i+=1){
-            if(members[i] === player){
+        for (i = 0; i < maxMembers; i += 1) {
+            if (members[i] === player) {
                 return i;
             }
         }
     }
 
-    printMembers () {
+    printMembers() {
         //console.log("printing members:");
         let i,
             members = this.members,
             maxMembers = this.maxMembers;
-        for(i=0; i<maxMembers; i+=1){
-            if(members[i] === null) console.log("- null");
+        for (i = 0; i < maxMembers; i += 1) {
+            if (members[i] === null) console.log("- null");
             else console.log("- " + members[i].displayName);
         }
     }
@@ -149,11 +149,11 @@ class Clan {
      * Attempts to add a player to this clan.
      * @param {Player} player - The player to add to this clan.
      */
-    addMember (player) {
+    addMember(player) {
         //console.log("clan add member:", player.displayName);
 
         // Check they aren't already in a clan.
-        if(player.clan !== null){
+        if (player.clan !== null) {
             player.socket.sendEvent(player.EventsList.chat_warning, player.ChatWarnings["Already in clan warning"]);
             return;
         }
@@ -162,8 +162,8 @@ class Clan {
         const members = this.members;
         const maxMembers = this.maxMembers;
         // Get the first empty slot. If no empty slots found, the clan is full.
-        for(i=0; i<maxMembers; i+=1){
-            if(members[i] === null){
+        for (i = 0; i < maxMembers; i += 1) {
+            if (members[i] === null) {
                 // Tell all existing members a player has joined.
                 this.emitToAllMembers(player.EventsList.clan_joined, {
                     id: player.id,
@@ -177,9 +177,9 @@ class Clan {
 
                 // Get the details of all members (including the new member) to send to the new member.
                 const membersData = [];
-                for(i=0; i<maxMembers; i+=1){
-                    if(members[i] === null) break;
-                    membersData.push({id: members[i].id, displayName: members[i].displayName});
+                for (i = 0; i < maxMembers; i += 1) {
+                    if (members[i] === null) break;
+                    membersData.push({ id: members[i].id, displayName: members[i].displayName });
                 }
                 // Also send the info of structure count and power.
                 player.socket.sendEvent(player.EventsList.clan_joined, {
@@ -202,29 +202,29 @@ class Clan {
      * @param {Number} toKickRankIndex - Rank index of the member to kick.
      * @param {Player} kickedByPlayer - The player entity of the member that kicked this member.
      */
-    kickMember (toKickRankIndex, kickedByPlayer) {
+    kickMember(toKickRankIndex, kickedByPlayer) {
         let i;
         const members = this.members;
         const maxMembers = this.maxMembers;
         //console.log("to kick rank index:", toKickRankIndex);
 
         // Only accept a number rank index.
-        if(Number.isInteger(toKickRankIndex) === false) return;
+        if (Number.isInteger(toKickRankIndex) === false) return;
         // Check the index is valid. A client might have sent something dodgy.
-        if(this.members[toKickRankIndex] === undefined) return;
+        if (this.members[toKickRankIndex] === undefined) return;
         // Check there is actually a member in that slot.
-        if(this.members[toKickRankIndex] === null) return;
+        if (this.members[toKickRankIndex] === null) return;
         // Check the promoter is actually a clan member.
-        if(kickedByPlayer.clan !== this) return;
+        if (kickedByPlayer.clan !== this) return;
 
         // Check the person doing the kicking is a higher rank.
-        for(i=0; i<maxMembers; i+=1){
+        for (i = 0; i < maxMembers; i += 1) {
             // If the player to be kicked is found before the kicker, they are a higher rank.
-            if(i === toKickRankIndex){
+            if (i === toKickRankIndex) {
                 // Stop the kick.
                 return;
             }
-            if(members[i] === kickedByPlayer){
+            if (members[i] === kickedByPlayer) {
                 // Kicker found first, proceed with the kick.
                 break;
             }
@@ -246,7 +246,7 @@ class Clan {
      * The given member chose to leave this clan, such as when they close the game, or the leave button.
      * @param {Player} player
      */
-    memberLeft (player) {
+    memberLeft(player) {
         //console.log("member left clan");
 
         // Tell all clan members this member has left.
@@ -260,16 +260,16 @@ class Clan {
      * @param {Player} player
      * @returns {Number} The rank index they had in the clan, before removal. TODO: <-- why?
      */
-    removeMember (player) {
+    removeMember(player) {
         // Check a valid value is given. Might have been an empty clan member slot.
-        if(player === null) return;
+        if (player === null) return;
 
         let i;
         const members = this.members;
         const maxMembers = this.maxMembers;
         // Remove the member.
-        for(i=0; i<maxMembers; i+=1){
-            if(members[i] === player){
+        for (i = 0; i < maxMembers; i += 1) {
+            if (members[i] === player) {
                 members[i] = null;
                 //console.log("member to remove found, rank:", i);
                 break;
@@ -284,10 +284,10 @@ class Clan {
         // Move everyone else below them in the clan up a rank.
         // i should still be the index of the removed member. Get the next member.
         i += 1;
-        for(; i<maxMembers; i+=1){
+        for (; i < maxMembers; i += 1) {
             // Check the end of the member list is reached. Might have less members than the max.
             // The first null slot found should be the end of the list.
-            if(members[i] === null) break;
+            if (members[i] === null) break;
             this.promoteMember(i);
         }
 
@@ -303,34 +303,34 @@ class Clan {
      * @param {Player} [promotedByPlayer] - Another member that is giving this promotion.
      * @param {Boolean} [shouldEmit] - Whether the clan_promoted event should be sent to clan members.
      */
-    promoteMember (toPromoteRankIndex, promotedByPlayer, shouldEmit) {
+    promoteMember(toPromoteRankIndex, promotedByPlayer, shouldEmit) {
         //console.log("promote member:", toPromoteRankIndex);
 
         // Only accept a number rank index.
-        if(Number.isInteger(toPromoteRankIndex) === false) return;
+        if (Number.isInteger(toPromoteRankIndex) === false) return;
         // Check the index is valid. A client might have sent something dodgy.
-        if(this.members[toPromoteRankIndex] === undefined) return;
+        if (this.members[toPromoteRankIndex] === undefined) return;
         // Check there is actually a member in that slot.
-        if(this.members[toPromoteRankIndex] === null) return;
+        if (this.members[toPromoteRankIndex] === null) return;
 
         // If promoted by null, they are just being moved up to fill a gap, so don't send the messages.
         // If NOT, then they are being promoted by another member so check the ranks.
-        if(promotedByPlayer){
+        if (promotedByPlayer) {
             // Check the promoter is actually a clan member.
-            if(promotedByPlayer.clan !== this) return;
+            if (promotedByPlayer.clan !== this) return;
 
             let i;
             const members = this.members;
             const maxMembers = this.maxMembers;
             // Check the person doing the kicking is a higher rank.
-            for(i=0; i<maxMembers; i+=1){
+            for (i = 0; i < maxMembers; i += 1) {
                 // If the player to be promoted is found before the promoter, they are a higher rank.
                 // Since this check is first, it handles the case that the rank index is for the promoter, i.e. trying to promote themself.
-                if(i === toPromoteRankIndex){
+                if (i === toPromoteRankIndex) {
                     // Stop the promotion.
                     return;
                 }
-                if(members[i] === promotedByPlayer){
+                if (members[i] === promotedByPlayer) {
                     // Promoter found first, proceed with the promotion.
                     break;
                 }
@@ -339,13 +339,13 @@ class Clan {
 
         const member = this.members[toPromoteRankIndex];
         // Move the member above into the slot below.
-        this.members[toPromoteRankIndex] = this.members[toPromoteRankIndex-1];
+        this.members[toPromoteRankIndex] = this.members[toPromoteRankIndex - 1];
         // Move the promoted member to the slot above.
-        this.members[toPromoteRankIndex-1] = member;
+        this.members[toPromoteRankIndex - 1] = member;
 
-        if(shouldEmit === true){
+        if (shouldEmit === true) {
             // Tell all clan members this member has been promoted.
-            this.emitToAllMembers(this.members[toPromoteRankIndex-1].EventsList.clan_promoted, toPromoteRankIndex);
+            this.emitToAllMembers(this.members[toPromoteRankIndex - 1].EventsList.clan_promoted, toPromoteRankIndex);
         }
 
         //console.log("member promoted:", member.id, ", to rank:", toPromoteRankIndex-1);
@@ -359,15 +359,15 @@ class Clan {
      * @param {Board} board
      * @returns {Boolean}
      */
-    canBuild (row, col, board) {
+    canBuild(row, col, board) {
         // Check there is space for more structures.
-        if(this.structuresCount >= this.maxStructures) return false;
+        if (this.structuresCount >= this.maxStructures) return false;
         // Check the target build location is within the build range of the charter.
-        if(Math.abs(row - this.charter.row) > this.buildRange) return false;
-        if(Math.abs(col - this.charter.col) > this.buildRange) return false;
+        if (Math.abs(row - this.charter.row) > this.buildRange) return false;
+        if (Math.abs(col - this.charter.col) > this.buildRange) return false;
 
         // Check there is nothing in the way. Can only build on the overworld.
-        if(board.isTileBuildable(row, col) === false) return false;
+        if (board.isTileBuildable(row, col) === false) return false;
 
         //console.log("clan can build");
         return true;
@@ -377,7 +377,7 @@ class Clan {
      * Add the given structure to this clan.
      * @param {Buildable} structure
      */
-    addStructure (structure) {
+    addStructure(structure) {
         //console.log("clan structure added");
         this.structuresCount += 1;
         this.structures[structure.id] = structure;
@@ -387,7 +387,7 @@ class Clan {
      * Remove the given structure from this clan.
      * @param {Buildable} structure
      */
-    removeStructure (structure) {
+    removeStructure(structure) {
         //console.log("clan structure removed");
         this.structuresCount -= 1;
         delete this.structures[structure.id];
@@ -398,10 +398,10 @@ class Clan {
      * Used to determine if power should be available.
      * @param {Number} amount
      */
-    modGeneratorCount (amount) {
+    modGeneratorCount(amount) {
         this.generatorCount += amount;
 
-        if(this.generatorCount <= 0){
+        if (this.generatorCount <= 0) {
             this.powerActive = false;
         }
         else {
@@ -409,7 +409,7 @@ class Clan {
         }
     }
 
-    getValues () {
+    getValues() {
         return {
             structuresCount: this.structuresCount,
             power: this.power
@@ -420,5 +420,5 @@ class Clan {
 
 module.exports = Clan;
 
-const Utils = require('../Utils');
+const Utils = require('../utils');
 const clanManager = require('./ClanManager');

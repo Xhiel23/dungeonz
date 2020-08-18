@@ -1,5 +1,5 @@
 const Boss = require('./Boss');
-const Utils = require('../../../../../Utils');
+const Utils = require('../../../../../utils');
 
 const specialAttack1Rate = 5000;
 const specialAttack2Rate = 10000;

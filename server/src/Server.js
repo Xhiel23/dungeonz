@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Utils = require("./Utils");
+const Utils = require("./utils");
 const pathToKeys = '../../../etc/letsencrypt/live/dungeonz.io/';
 
 // Express config.

@@ -1,4 +1,4 @@
-const Utils = require("./src/Utils");
+const Utils = require("./src/utils");
 
 Utils.message("Start of index");
 

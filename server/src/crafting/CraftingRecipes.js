@@ -1,4 +1,4 @@
-const Utils = require("../Utils");
+const Utils = require("../utils");
 const CraftingManager = require('./CraftingManager');
 
 require('./crafting recipes/ClanStructures');

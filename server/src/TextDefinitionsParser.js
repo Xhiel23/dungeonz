@@ -3,7 +3,7 @@
 
 const XLSX = require('xlsx');
 const fs = require('fs');
-const Utils = require("./Utils");
+const Utils = require("./utils");
 
 const workbook = XLSX.readFile('Dungeonz.io translations.xlsx');
 

@@ -1,4 +1,4 @@
-const Utils = require("../Utils");
+const Utils = require("../utils");
 const ItemsList = require('../ItemsList');
 
 class StockItem {

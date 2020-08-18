@@ -428,5 +428,5 @@ const ItemsList = require('./ItemsList');
 const Task = require('./tasks/Task');
 const TaskTypes = require('./tasks/TaskTypes');
 const EventsList = require('./EventsList');
-const Utils = require('./Utils');
+const Utils = require('./utils');
 const fs = require('fs');

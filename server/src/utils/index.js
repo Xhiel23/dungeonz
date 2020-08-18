@@ -82,6 +82,8 @@ class Utils {
         this.checkDirectoryExists('../client/src/catalogues');
     }
 
+    requireDir = require("./require-dir");
+
     /**
      * Prints a system message in the project format.
      * Wrapper for console.log.

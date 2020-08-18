@@ -1,4 +1,4 @@
-const Utils = require('../Utils');
+const Utils = require('../utils');
 const Difficulties = require('./Difficulties');
 
 const idCounter = new Utils.Counter();

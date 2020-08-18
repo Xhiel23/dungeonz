@@ -1,4 +1,4 @@
-const Utils = require('../Utils');
+const Utils = require('../utils');
 const Damage = require('../gameplay/Damage');
 const Heal = require('../gameplay/Heal');
 

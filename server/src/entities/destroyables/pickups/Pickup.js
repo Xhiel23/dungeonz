@@ -10,7 +10,7 @@ class Pickup extends Destroyable {
      * @param {Number} [config.durability = null] - How much durability this pickup (and its item form) has. Null durability items don't degrade.
      * @param {Number} [config.maxDurability = null] - How much durability this pickup (and its item form) can have.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         config.board.addPickup(this);
@@ -20,13 +20,13 @@ class Pickup extends Destroyable {
         this.maxDurability = config.maxDurability || config.durability || null;
 
         // Add a self-destruct timer to pickups that are not in a dungeon.
-        if(!this.board.dungeon){
+        if (!this.board.dungeon) {
             // A timer to auto destroy this item if it isn't picked up within the given time.
             this.lifespanTimeout = setTimeout(this.destroy.bind(this), 1000 * 60);
         }
     }
 
-    onDestroy () {
+    onDestroy() {
         clearTimeout(this.lifespanTimeout);
 
         this.board.removePickup(this);
@@ -34,14 +34,14 @@ class Pickup extends Destroyable {
         super.onDestroy();
     }
 
-    onDropped (droppedBy) {}
+    onDropped(droppedBy) { }
 
-    onPickedUp (pickedUpBy) {}
+    onPickedUp(pickedUpBy) { }
 
-    setItemType (moduleName) {
+    setItemType(moduleName) {
         this.ItemType = require('../../../items/' + moduleName);
 
-        if(typeof this.ItemType !== "function"){
+        if (typeof this.ItemType !== "function") {
             Utils.error("Cannot set pickup item type, item type does not exist:", moduleName);
         }
     }
@@ -72,4 +72,4 @@ Pickup.prototype.spawnRate = 20000;
 
 module.exports = Pickup;
 
-const Utils = require('../../../Utils');
+const Utils = require('../../../utils');

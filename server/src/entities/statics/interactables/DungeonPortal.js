@@ -43,7 +43,7 @@ class DungeonPortal extends Interactable {
 }
 module.exports = DungeonPortal;
 
-const Utils = require('../../../Utils');
+const Utils = require('../../../utils');
 const Player = require('../../destroyables/movables/characters/Player');
 const DungeonManagersList = require('../../../dungeon/DungeonManagersList');
 

@@ -1,4 +1,4 @@
-const Utils = require('../Utils');
+const Utils = require('../utils');
 const idCounter = new Utils.Counter();
 
 class Party {

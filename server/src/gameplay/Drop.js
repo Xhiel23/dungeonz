@@ -1,11 +1,11 @@
 const fs = require('fs');
 const Pickup = require('../entities/destroyables/pickups/Pickup');
-const Utils = require('../Utils');
+const Utils = require('../utils');
 
 class Drop {
-    constructor (config) {
+    constructor(config) {
 
-        if(fs.existsSync("../server/src/entities/destroyables/pickups/Pickup" + config.itemName + ".js") === false) {
+        if (fs.existsSync("../server/src/entities/destroyables/pickups/Pickup" + config.itemName + ".js") === false) {
             Utils.error("Cannot add to drop list, drop item name does not match any pickup class file name:", config.itemName);
         }
 
@@ -15,11 +15,11 @@ class Drop {
          */
         this.pickupType = require("../entities/destroyables/pickups/Pickup" + config.itemName);
 
-        if(typeof this.pickupType !== "function"){
+        if (typeof this.pickupType !== "function") {
             Utils.error("Cannot add to drop list, pickup entity is not a function/class. Is it disabled?:", config.itemName);
         }
 
-        if(this.pickupType.prototype instanceof Pickup === false){
+        if (this.pickupType.prototype instanceof Pickup === false) {
             Utils.error("Cannot add to drop list, imported entity type does not extend type Pickup. Config:" + config);
         }
 
@@ -29,23 +29,23 @@ class Drop {
          */
         this.rolls = 1;
         // Use config if set.
-        if(config.rolls !== undefined){
+        if (config.rolls !== undefined) {
             // Check it is valid.
-            if(Number.isInteger(config.rolls) === false) Utils.error("Mob item drop rolls must be an integer. Config:" + config);
-            if(config.rolls < 1) Utils.error("Mob item drop rolls must be greater than 1. Config:", config);
+            if (Number.isInteger(config.rolls) === false) Utils.error("Mob item drop rolls must be an integer. Config:" + config);
+            if (config.rolls < 1) Utils.error("Mob item drop rolls must be greater than 1. Config:", config);
 
             this.rolls = config.rolls;
         }
-        
+
         /**
          * The chance of getting the item on each roll.
          * @type {Numnber}
          */
         this.dropRate = 20;
         // Use config if set.
-        if(config.dropRate !== undefined){
+        if (config.dropRate !== undefined) {
             // Check it is valid.
-            if(config.dropRate <= 0 || config.dropRate > 100) Utils.error("Mob item drop rate must be greater than 0, up to 100, i.e. 40 => 40% chance. Config:" + config);
+            if (config.dropRate <= 0 || config.dropRate > 100) Utils.error("Mob item drop rate must be greater than 0, up to 100, i.e. 40 => 40% chance. Config:" + config);
 
             this.dropRate = config.dropRate;
         }

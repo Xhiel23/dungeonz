@@ -1,5 +1,5 @@
 const Entity = require('../Entity');
-const Utils = require('../../Utils');
+const Utils = require('../../utils');
 
 class Static extends Entity {
     /**

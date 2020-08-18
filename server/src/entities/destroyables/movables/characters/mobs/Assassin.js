@@ -1,6 +1,6 @@
 
 const Mob = require('./Mob');
-const Utils = require('../../../../../Utils');
+const Utils = require('../../../../../utils');
 
 class Assassin extends Mob {
     /**

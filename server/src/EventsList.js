@@ -1,4 +1,4 @@
-const Utils = require("./Utils");
+const Utils = require("./utils");
 
 var counter = 0;
 function registerEventName() {
