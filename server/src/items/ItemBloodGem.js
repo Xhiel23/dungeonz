@@ -3,6 +3,7 @@ const Item = require('./Item');
 const ItemBloodGem = Object.create(Item);
 
 Object.assign(ItemBloodGem, {
+    code: "WJXO1017",
     name: "BloodGem",
     idName: "Blood gem",
     iconSource: "icon-blood-gem",
@@ -11,8 +12,5 @@ Object.assign(ItemBloodGem, {
     craftingExpValue: 40,
 });
 
-class ItemBloodGem extends Item { }
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemBloodGem;
-
-ItemBloodGem.prototype.registerItemType();

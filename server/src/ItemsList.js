@@ -1,4 +1,6 @@
-const Utils = require("./Utils");
+const Utils = require("./utils");
+const Pickup = require('./entities/destroyables/pickups/Pickup');
+const Item = require("./items/Item");
 
 const ItemsList = {
     LIST: this
@@ -15,22 +17,35 @@ require('require-dir')('items', {
 
             ItemsList[baseName] = value;
         }
-    }
+    },
+    errorHandler: (error) => { }
 });
+
+const assignDefaultPickup = (ItemType) => {
+    class ItemPickup extends Pickup { }
+
+    console.log("assigning default pickup:", ItemType.constructor.name);
+
+    ItemPickup.prototype.registerEntityType();
+    ItemPickup.prototype.ItemType = require('../../../items/' + ItemType.constructor.name);
+};
 
 // Check all of the items are valid. i.e. are a class/function.
 Object.keys(ItemsList).forEach((itemKey) => {
     // Skip the list itself.
     if (itemKey === "LIST") return;
 
-    if (typeof ItemsList[itemKey] !== "function") {
+    if (ItemsList[itemKey].prototype instanceof Item) {
         console.error("* ERROR: Invalid item type added to ItemsList:", itemKey);
         process.exit();
     }
+
+    assignDefaultPickup(ItemsList[itemKey]);
 });
 
 // Write the registered item types to the client, so the client knows what item to add for each type number.
 const fs = require('fs');
+const { HealthRegen } = require("./gameplay/ModHitPointConfigs");
 let dataToWrite = {};
 
 for (let itemTypeKey in ItemsList) {

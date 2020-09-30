@@ -1,8 +1,15 @@
-const Utils = require("../Utils");
+const Utils = require("../utils");
 const StatNames = require('../stats/Statset').prototype.StatNames;
-const getRandomIntInclusive = Utils.getRandomIntInclusive;
 
 const Item = {
+    /**
+     * A way to uniquely identify this type of item.
+     * Display names or class names might be changed, but this should never be.
+     * @todo: randomly generate and save to DB??
+     * @type {String}
+     */
+    code: "ABCD1234",
+
     name: "",
 
     /**
@@ -20,11 +27,12 @@ const Item = {
     /**
      * The ID of this item in the language text definitions file.
      * Just the item name itself, which is added onto the "Item name: " prefix to get the actual ID.
+     * TODO: rethink this with the new codes style in mind
      * @type {String}
      */
-    idName = 'ID name not set.',
+    idName: 'ID name not set.',
 
-    iconSource = "Icon source not set.",
+    iconSource: "Icon source not set.",
 
     /**
      * The type of entity to be added to the board if this item is dropped on the ground. The class itself, NOT an instance of it.
@@ -92,11 +100,11 @@ const Item = {
 // Give all Items easy access to the finished EntitiesList.
 // Needs to be done when all entities are finished initing,
 // or accessing entities causes errors. Done in index.js.
-Item.prototype.EntitiesList = {};
+Item.EntitiesList = {};
 
-Item.prototype.StatNames = StatNames;
+Item.StatNames = StatNames;
 
-Item.prototype.ItemExpGiven = (statName, amount) => {
+Item.ItemExpGiven = (statName, amount) => {
     this.statName = statName || null;
     this.amount = amount || 0;
 };
@@ -106,7 +114,7 @@ Item.prototype.ItemExpGiven = (statName, amount) => {
  * used, regardless of what specific tool it was. i.e. any hatchet can be used
  * to cut a tree, so just check for the Hatchet category on the item.
  */
-Item.prototype.ItemCategories = {
+Item.ItemCategories = {
     Hatchet: "Hatchet",
     Pickaxe: "Pickaxe",
     Weapon: "Weapon",
