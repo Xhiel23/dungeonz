@@ -266,6 +266,12 @@ class Game extends Phaser.Scene {
 
         this.currentBackgroundMusic = this.sounds.item.dropped;
         this.changeBackgroundMusic(this.sounds.location.generic);
+
+        window.addEventListener('beforeunload', (event) => {
+            this.GUI.createAccountPanel.show();
+            event.preventDefault();
+            event.returnValue = '';
+        });
     }
 
     update() {
